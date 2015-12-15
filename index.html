@@ -1,0 +1,115 @@
+<!DOCTYPE HTML>
+<html ng-app="englishPortfolio">
+<head>
+<title>English Portfolio - Remington Breeze</title>
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body ng-controller="mainController">
+
+<div ng-show="popUpState" class="pop-up">
+	<div ng-include="'docs/' + currentPopUp.title + '.html'"></div>
+	<br>
+	<a class="dismiss" ng-click="popDown()">Close</a>
+</div>
+
+<div ng-show="popUpState" class="coating"></div>
+
+<div class="header">
+<h1>English Portfolio</h1>
+<h2 class="subtitle">by <a target="_blank" href="http://rbreeze.github.io/dashboard">Remington Breeze</a></h2>
+</div>
+<span class="filler"></span>
+
+<div class="paragraph-container">
+<h2>Table of Contents</h2>
+<div class="table-of-contents">
+<p ng-repeat="(number, description) in standards">
+<a id="{{ number }}" class="jump-to standard{{ number }}" href="">{{ description }} <span class="label{{number}}">-- Standard {{ number }}</span></a>
+</p>
+</div>
+</div>
+
+<span ng-repeat="(number, description) in standards">
+<div class="paragraph-container {{ number }}">
+<h2>{{ standards[number] }}</h2>
+<h3>-- Standard {{ number }} --</h3>
+
+<p ng-include="getStandardLink(number)"></p>
+
+<div class="to-top"><a href="">Back to Top</a></div>
+
+</div>
+</span>
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0-rc.0/angular.min.js"></script>
+<script src="http://code.jquery.com/jquery-latest.min.js"
+        type="text/javascript"></script>
+<script>
+$(window).scroll(function () {
+    var scrollTop = $(window).scrollTop();
+    var height = $(window).height();
+    $('.paragraph-container').each(function(index) {
+    	var relativeScrollTop = ($(this).offset().top - scrollTop) + ($(this).height()*.42);
+    	var relativeScrollBottom = height - relativeScrollTop;
+        $(this).css({'opacity': (relativeScrollTop + (height * 1.95)) / (height * 2) });
+    });
+    $('.header').css({
+        'opacity': ((height - scrollTop) / (height * 1.5))
+    });
+});
+
+$(document).ready(function() {
+	$('.to-top').click(function() {
+		$('html, body').animate({
+			scrollTop: 0
+		}, 500);
+	});
+	$('.jump-to').click(function() {
+		var id = $(this).attr('id');
+		var destination = $('.' + id);
+		$('html, body').animate({
+			scrollTop: destination.offset().top - 100
+		}, 500);
+	});
+});
+
+var app = angular.module('englishPortfolio', []);
+
+app.controller('mainController', function($scope) {
+	$scope.standards = {
+		0: 'About Me',
+		1: 'Argumentative Essays', 
+		2: 'Informative Essays',
+		3: 'Narrative Essays',
+		5: 'Revision', 
+		6: 'Technology',
+		7: 'Research',
+		9: 'Literary Evidence',
+		10: 'Different Time Frames',
+		11: 'Final Reflection'
+	};
+
+	$scope.popUpUrl = ""; 
+	$scope.popUpState = false; 
+
+	$scope.getStandardLink = function(number) {
+		return "docs/standard" + number + ".html";
+	};
+
+	$scope.popUp = function(key) {
+		$scope.popUpState = true;
+		$scope.currentPopUp = {
+			title: key
+		}
+	}
+
+	$scope.popDown = function() {
+		$scope.popUpState = false;
+		$scope.popUpUrl = "";
+	}
+
+});
+
+</script>
+</body>
+</html>
