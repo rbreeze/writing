@@ -1,10 +1,11 @@
 <!DOCTYPE HTML>
 <html ng-app="englishPortfolio">
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>English Portfolio - Remington Breeze</title>
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
-<body ng-controller="mainController">
+<body ng-controller="mainController" ng-class="popUpClass">
 
 <div ng-show="popUpState" class="pop-up">
 	<div ng-include="'docs/' + currentPopUp.title + '.html'"></div>
@@ -97,6 +98,7 @@ app.controller('mainController', function($scope) {
 	};
 
 	$scope.popUp = function(key) {
+		$scope.popUpClass = "noScroll";
 		$scope.popUpState = true;
 		$scope.currentPopUp = {
 			title: key
@@ -104,6 +106,7 @@ app.controller('mainController', function($scope) {
 	}
 
 	$scope.popDown = function() {
+		$scope.popUpClass = "";
 		$scope.popUpState = false;
 		$scope.popUpUrl = "";
 	}

@@ -2,6 +2,10 @@
   font-family: "Avenir Next";
   src: url("avenirNext.otf");
 }
+@font-face {
+  font-family: "Arvo";
+  src: url("Arvo-Regular.otf");
+}
 h1,
 h2,
 h3 {
@@ -13,6 +17,9 @@ body {
   font-family: "Avenir Next";
   background: url("splash.jpeg");
   background-attachment: fixed;
+}
+.noScroll {
+  overflow: hidden;
 }
 .coating {
   position: fixed;
